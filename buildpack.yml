@@ -2,5 +2,4 @@ php:
   version: 7.3.x
   script: index.php
   webserver: nginx
-  webdirectory: htdocs
-
+  webdirectory: wordpress

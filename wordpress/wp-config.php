@@ -21,10 +21,10 @@
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 
-$DatabaseUsername = file_get_contents("/services/wordpressdb7/username");
-$DatabasePassword = file_get_contents("/services/wordpressdb7/password");
-$DatabaseHost = file_get_contents("/services/wordpressdb7/host");
-$DatabaseName = file_get_contents("/services/wordpressdb7/database");
+$DatabaseUsername = file_get_contents("/services/wordpress/username");
+$DatabasePassword = file_get_contents("/services/wordpress/password");
+$DatabaseHost = file_get_contents("/services/wordpress/host");
+$DatabaseName = file_get_contents("/services/wordpress/database");
 
 define( 'DB_NAME', $DatabaseName );
 
