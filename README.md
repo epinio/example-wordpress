@@ -33,7 +33,7 @@ bash> chmod +x epinio-linux-amd64
 # Put epinio in your PATH
 bash> mv epinio-linux-amd64 /usr/bin/epinio
 # Enable epinio autocompletion
-bash> epinio comp bash > comp
+bash> epinio completion bash > comp
 bash> source comp
 ```
 
