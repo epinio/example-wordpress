@@ -27,7 +27,7 @@ should work on Linux (replace the link with right one for your binary):
 
 ```bash
 # Download the binary
-bash> wget https://github.com/epinio/epinio/releases/download/v0.0.16/epinio-linux-amd64
+bash> wget https://github.com/epinio/epinio/releases/download/v0.1.6/epinio-linux-amd64
 # Make the binary executable
 bash> chmod +x epinio-linux-amd64
 # Put epinio in your PATH
@@ -91,7 +91,7 @@ that should work if you didn't change the name of the database in the steps abov
 You can now push Wordpress with one command:
 
 ```bash
-bash> epinio push wordpress -b wordpress
+bash> epinio push -n wordpress -b wordpress
 ```
 
 ## Step 7 - Visit the wordpress route and finish the installation
