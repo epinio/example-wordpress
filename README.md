@@ -27,13 +27,13 @@ should work on Linux (replace the link with right one for your binary):
 
 ```bash
 # Download the binary
-bash> wget https://github.com/epinio/epinio/releases/download/v0.0.16/epinio-linux-amd64
+bash> wget https://github.com/epinio/epinio/releases/download/v0.1.6/epinio-linux-amd64
 # Make the binary executable
 bash> chmod +x epinio-linux-amd64
 # Put epinio in your PATH
 bash> mv epinio-linux-amd64 /usr/bin/epinio
 # Enable epinio autocompletion
-bash> epinio comp bash > comp
+bash> epinio completion bash > comp
 bash> source comp
 ```
 
@@ -45,17 +45,9 @@ bash> epinio install
 
 ## Step 4 - Create a database for Wordpress
 
-```bash
-# Enable in-cluster services (Minibroker)
-bash> epinio enable services-incluster
-# Wait until the following command returns some Mariadb plans
-bash> watch epinio service list-plans mariadb # CTRL+C when ready
-# Create a service instance of Mariadb called "wordpress" with a database "wordpress"
-# automatically created.
-# This is the actual value we are setting behind the scenes:
-# https://github.com/helm/charts/blob/2771293/stable/mariadb/values.yaml#L134
-bash> epinio service create wordpress mariadb 10-3-22 --data '{ "db": { "name": "wordpress" }}'
-```
+Wordpress needs a database to work. After visiting the route of your deployed application you will have to set the connection details to the database.
+
+You can install a MySQL database on your cluster or use an external one. One option is using a helm chart like this one: https://bitnami.com/stack/mysql/helm
 
 ## Step 5 - Download and prepare Wordpress
 
@@ -91,7 +83,7 @@ that should work if you didn't change the name of the database in the steps abov
 You can now push Wordpress with one command:
 
 ```bash
-bash> epinio push wordpress -b wordpress
+bash> epinio push -n wordpress
 ```
 
 ## Step 7 - Visit the wordpress route and finish the installation
