@@ -6,7 +6,7 @@ In order to deploy Wordpress to Epinio you are going to need:
 
 - The Wordpress sources
 - An epinio installation
-- A mysql service running and accessible from your Wordpress app
+- A MySQL service running and accessible from your Wordpress app
 - A wp-config.php file inside the wordpress directory configured for access to the mysql service
 - A [.php.ini.d/extensions.ini](.php.ini.d/extensions.ini)
   file to configure the PHP buildpack for wordpress ([More here](https://github.com/paketo-buildpacks/php-web#configuring-custom-ini-files))
@@ -62,7 +62,7 @@ https://wordpress.org/download/#download-install
 ## Step 6 - Prepare the source code to work with Epinio
 
 You need to enable two PHP plugins that are needed for
-Wordpress and for mysql:  zlib and mysqli
+Wordpress and for MySQL:  zlib and mysqli
 
 This happens with the [.php.ini.d/extensions.ini](.php.ini.d/extensions.ini) file
 in this repository.
