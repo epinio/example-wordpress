@@ -6,15 +6,15 @@ In order to deploy Wordpress to Epinio you are going to need:
 
 - The Wordpress sources
 - An epinio installation
-- A mariadb service running and accessible from your Wordpress app
-- A wp-config.php file inside the wordpress directory configured for access to the Mariadb service
-- A [buildpack.yml](buildpack.yml) and a [.php.ini.d/extensions.ini](.php.ini.d/extensions.ini)
+- A MySQL service running and accessible from your Wordpress app
+- A wp-config.php file inside the wordpress directory configured for access to the mysql service
+- A [.php.ini.d/extensions.ini](.php.ini.d/extensions.ini)
   file to configure the PHP buildpack for wordpress ([More here](https://github.com/paketo-buildpacks/php-web#configuring-custom-ini-files))
 
 ## Step 1 - Create a cluster
 
 ```bash
-bash> k3d cluster create epinio -p 80:80@server[0] -p 443:443@server[0] --k3s-server-arg --disable --k3s-server-arg traefik
+bash> k3d cluster create epinio -p 80:80 -p 443:443
 ```
 
 ## Step 2 - Download epinio cli
@@ -27,11 +27,11 @@ should work on Linux (replace the link with right one for your binary):
 
 ```bash
 # Download the binary
-bash> wget https://github.com/epinio/epinio/releases/download/v0.1.6/epinio-linux-amd64
+bash> wget https://github.com/epinio/epinio/releases/download/v0.7.1/epinio-linux-x86_64
 # Make the binary executable
-bash> chmod +x epinio-linux-amd64
+bash> chmod +x epinio-linux-x86_64
 # Put epinio in your PATH
-bash> mv epinio-linux-amd64 /usr/bin/epinio
+bash> mv epinio-linux-x86_64 /usr/bin/epinio
 # Enable epinio autocompletion
 bash> epinio completion bash > comp
 bash> source comp
@@ -39,9 +39,7 @@ bash> source comp
 
 ## Step 3 - Install epinio
 
-```bash
-bash> epinio install
-```
+Follow the Epinio installation guide [here](https://docs.epinio.io/installation)
 
 ## Step 4 - Create a database for Wordpress
 
@@ -49,6 +47,9 @@ Wordpress needs a database to work. After visiting the route of your deployed ap
 
 You can install a MySQL database on your cluster or use an external one. One option is using a helm chart like this one: https://bitnami.com/stack/mysql/helm
 
+```bash
+bash> epinio service create mysql-dev mydb 
+```
 ## Step 5 - Download and prepare Wordpress
 
 Since you are using this repository, you can skip this step. The wordpress
@@ -60,12 +61,8 @@ https://wordpress.org/download/#download-install
 
 ## Step 6 - Prepare the source code to work with Epinio
 
-You are going to need to configure the PHP buildpack to work with Epinio. This is
-done with the [buildpack.yml](buildpack.yml) file in this repository which defines
-what script the app should start from, which web server to use, where the application
-files live and what PHP version to use.
-The other thing you need to do is to enable two PHP plugins that are needed for
-Wordpress and for Mariadb:  zlib and mysqli
+You need to enable two PHP plugins that are needed for
+Wordpress and for MySQL:  zlib and mysqli
 
 This happens with the [.php.ini.d/extensions.ini](.php.ini.d/extensions.ini) file
 in this repository.
@@ -78,15 +75,27 @@ to `wordpress/wp-config.php` and editing the relevant `DB_` settings.
 This repository already has a [wordpress/wp-config.php](wordpress/wp-config.php) file
 that should work if you didn't change the name of the database in the steps above.
 
-## Step 6 - Push wordpress and bind the database service
+## Step 6 - Create application, bind the database service and update configuration
+
+You can now create the application:
+```bash
+# Create the application
+bash> epinio apps create wordpress
+# Bind the database to the app
+bash> epinio service bind mydb wordpress
+# Update the configuration
+bash> epinio configuration update workspace-mydb-mysql --set host=workspace-mydb-mysql.workspace.svc.cluster.local --set username=root --set database=my_database
+```
+
+## Step 7 - Push the application
 
 You can now push Wordpress with one command:
 
 ```bash
-bash> epinio push -n wordpress
+bash> epinio push -n wordpress -e BP_PHP_VERSION=7.4.x -e BP_PHP_SERVER=nginx -e BP_PHP_WEB_DIR=wordpress
 ```
 
-## Step 7 - Visit the wordpress route and finish the installation
+## Step 8 - Visit the wordpress route and finish the installation
 
 You can now visit the application's route in your browser and follow the Wordpress
 installation wizard to finish the installation.
