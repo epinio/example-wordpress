@@ -23,8 +23,8 @@
 
 $ConfigName = getenv('CONFIG_NAME');
 $DatabaseUsername = 'root';
-$DatabasePassword = file_get_contents(sprintf("/configurations/%s/mysql-root-password", $ConfigName));
-$DatabaseHost = printf("%s.workspace.svc.cluster.local", $ConfigName);
+$DatabasePassword = file_get_contents("/configurations/" . $ConfigName . "/mysql-root-password");
+$DatabaseHost = $ConfigName . ".workspace.svc.cluster.local";
 $DatabaseName = 'my_database';
 
 define( 'DB_NAME', $DatabaseName );
