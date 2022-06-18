@@ -21,10 +21,10 @@
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 
-$CONFIG_NAME = getenv('CONFIG_NAME');
+$ConfigName = getenv('CONFIG_NAME');
 $DatabaseUsername = 'root';
-$DatabasePassword = file_get_contents("/configurations/" . $CONFIG_NAME . "/mysql-root-password");
-$DatabaseHost = 'workspace-mydb-mysql.workspace.svc.cluster.local';
+$DatabasePassword = file_get_contents(sprintf("/configurations/%s/mysql-root-password", $ConfigName));
+$DatabaseHost = printf("%s.workspace.svc.cluster.local", $ConfigName);
 $DatabaseName = 'my_database';
 
 define( 'DB_NAME', $DatabaseName );
