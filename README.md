@@ -83,8 +83,6 @@ You can now create the application:
 bash> epinio apps create wordpress
 # Bind the database to the app
 bash> epinio service bind mydb wordpress
-# Update the configuration
-bash> epinio configuration update workspace-mydb-mysql --set host=workspace-mydb-mysql.workspace.svc.cluster.local --set username=root --set database=my_database
 ```
 
 ## Step 7 - Push the application
@@ -92,7 +90,8 @@ bash> epinio configuration update workspace-mydb-mysql --set host=workspace-mydb
 You can now push Wordpress with one command:
 
 ```bash
-bash> epinio push -n wordpress -e BP_PHP_VERSION=7.4.x -e BP_PHP_SERVER=nginx -e BP_PHP_WEB_DIR=wordpress
+bash> epinio push -n wordpress -e BP_PHP_VERSION=7.4.x -e BP_PHP_SERVER=nginx -e BP_PHP_WEB_DIR=wordpress \
+      -e CONFIG_NAME=$(epinio configurations list | grep mydb | awk '{print $2}')
 ```
 
 ## Step 8 - Visit the wordpress route and finish the installation
