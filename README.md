@@ -75,7 +75,7 @@ to `wordpress/wp-config.php` and editing the relevant `DB_` settings.
 This repository already has a [wordpress/wp-config.php](wordpress/wp-config.php) file
 that should work if you didn't change the name of the database in the steps above.
 
-## Step 6 - Create application, bind the database service and update configuration
+## Step 6 - Create application and bind the database service
 
 You can now create the application:
 ```bash
