@@ -75,7 +75,7 @@ to `wordpress/wp-config.php` and editing the relevant `DB_` settings.
 This repository already has a [wordpress/wp-config.php](wordpress/wp-config.php) file
 that should work if you didn't change the name of the database in the steps above.
 
-## Step 6 - Create application, bind the database service and update configuration
+## Step 6 - Create application and bind the database service
 
 You can now create the application:
 ```bash
@@ -83,8 +83,6 @@ You can now create the application:
 bash> epinio apps create wordpress
 # Bind the database to the app
 bash> epinio service bind mydb wordpress
-# Update the configuration
-bash> epinio configuration update workspace-mydb-mysql --set host=workspace-mydb-mysql.workspace.svc.cluster.local --set username=root --set database=my_database
 ```
 
 ## Step 7 - Push the application
@@ -92,7 +90,8 @@ bash> epinio configuration update workspace-mydb-mysql --set host=workspace-mydb
 You can now push Wordpress with one command:
 
 ```bash
-bash> epinio push -n wordpress -e BP_PHP_VERSION=7.4.x -e BP_PHP_SERVER=nginx -e BP_PHP_WEB_DIR=wordpress
+bash> epinio push -n wordpress -e BP_PHP_VERSION=7.4.x -e BP_PHP_SERVER=nginx -e BP_PHP_WEB_DIR=wordpress \
+      -e CONFIG_NAME=$(epinio configurations list | grep mydb | awk '{print $2}')
 ```
 
 ## Step 8 - Visit the wordpress route and finish the installation
