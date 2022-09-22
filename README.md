@@ -14,7 +14,7 @@ In order to deploy Wordpress to Epinio you are going to need:
 ## Step 1 - Create a cluster
 
 ```bash
-bash> k3d cluster create epinio -p 80:80 -p 443:443
+bash> k3d cluster create epinio
 ```
 
 ## Step 2 - Download epinio cli
@@ -27,7 +27,7 @@ should work on Linux (replace the link with right one for your binary):
 
 ```bash
 # Download the binary
-bash> wget https://github.com/epinio/epinio/releases/download/v0.7.1/epinio-linux-x86_64
+bash> wget https://github.com/epinio/epinio/releases/download/v1.2.0/epinio-linux-x86_64
 # Make the binary executable
 bash> chmod +x epinio-linux-x86_64
 # Put epinio in your PATH
@@ -47,6 +47,30 @@ Wordpress needs a database to work. After visiting the route of your deployed ap
 
 You can install a MySQL database on your cluster or use an external one. One option is using a helm chart like this one: https://bitnami.com/stack/mysql/helm
 
+Also you may use the ones already available on our catalog services:
+
+```bash
+bash> epinio service catalog
+
+#🚢  Getting catalog...
+
+#✔️  Epinio Services:
+#|      NAME      |            CREATED             | VERSION |          DESCRIPTION           |
+#|----------------|--------------------------------|---------|--------------------------------|
+#| postgresql-dev | 2022-09-22 12:45:05 +0200 CEST | 14.2.0  | A PostgreSQL service that can  |
+#|                |                                |         | be used during development     |
+#| rabbitmq-dev   | 2022-09-22 12:45:05 +0200 CEST | 3.9.17  | A RabbitMQ service that can be |
+#|                |                                |         | used during development        |
+#| mysql-dev      | 2022-09-22 12:45:05 +0200 CEST | 8.0.29  | A MySQL service that can be    |
+#|                |                                |         | used during development        |
+#| mongodb-dev    | 2022-09-22 12:45:05 +0200 CEST | 6.0.1   | A MongoDB service that can be  |
+#|                |                                |         | used during development        |
+#| redis-dev      | 2022-09-22 12:45:05 +0200 CEST | 6.2.7   | A Redis service that can be    |
+#|                |                                |         | used during development        |
+```
+More info about our Service Catalog here: https://docs.epinio.io/references/customization/catalog
+
+For this example, we proceed with `mysql-dev`:
 ```bash
 bash> epinio service create mysql-dev mydb 
 ```
@@ -90,7 +114,7 @@ bash> epinio service bind mydb wordpress
 You can now push Wordpress with one command:
 
 ```bash
-bash> epinio push -n wordpress -e BP_PHP_VERSION=7.4.x -e BP_PHP_SERVER=nginx -e BP_PHP_WEB_DIR=wordpress \
+bash> epinio push -n wordpress -e BP_PHP_VERSION=8.0.x -e BP_PHP_SERVER=nginx -e BP_PHP_WEB_DIR=wordpress \
       -e CONFIG_NAME=$(epinio configurations list | grep mydb | awk '{print $2}')
 ```
 
