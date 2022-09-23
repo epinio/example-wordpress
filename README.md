@@ -47,7 +47,7 @@ Wordpress needs a database to work. After visiting the route of your deployed ap
 
 You can install a MySQL database on your cluster or use an external one. One option is using a helm chart like this one: https://bitnami.com/stack/mysql/helm
 
-Also you may use the ones already available on our catalog services:
+Alternatively, you may use the ones already available on our `service catalog`:
 
 ```bash
 bash> epinio service catalog
@@ -68,9 +68,10 @@ bash> epinio service catalog
 #| redis-dev      | 2022-09-22 12:45:05 +0200 CEST | 6.2.7   | A Redis service that can be    |
 #|                |                                |         | used during development        |
 ```
-More info about our Service Catalog here: https://docs.epinio.io/references/customization/catalog
+More information about Epinio Service Catalog is available in [the docs](https://docs.epinio.io/references/customization/catalog).
 
-For this example, we proceed with `mysql-dev`:
+nunix59 minutes ago
+For this example, we'll install the `mysql-dev` service:
 ```bash
 bash> epinio service create mysql-dev mydb 
 ```
