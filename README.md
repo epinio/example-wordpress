@@ -70,7 +70,6 @@ bash> epinio service catalog
 ```
 More information about Epinio Service Catalog is available in [the docs](https://docs.epinio.io/references/customization/catalog).
 
-nunix59 minutes ago
 For this example, we'll install the `mysql-dev` service:
 ```bash
 bash> epinio service create mysql-dev mydb 
