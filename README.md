@@ -70,7 +70,6 @@ bash> epinio service catalog
 ```
 More information about Epinio Service Catalog is available in [the docs](https://docs.epinio.io/references/customization/catalog).
 
-nunix59 minutes ago
 For this example, we'll install the `mysql-dev` service:
 ```bash
 bash> epinio service create mysql-dev mydb 
@@ -115,8 +114,12 @@ bash> epinio service bind mydb wordpress
 You can now push Wordpress with one command:
 
 ```bash
-bash> epinio push -n wordpress -e BP_PHP_VERSION=8.0.x -e BP_PHP_SERVER=nginx -e BP_PHP_WEB_DIR=wordpress \
-      -e CONFIG_NAME=$(epinio configurations list | grep mydb | awk '{print $2}')
+bash> epinio push -n wordpress \
+-e BP_PHP_VERSION=8.0.x \
+-e BP_PHP_SERVER=nginx \
+-e BP_PHP_WEB_DIR=wordpress \
+-e DB_HOST=$(epinio configurations list | grep mydb | awk '{print $2}') \
+-e SERVICE_NAME=mydb  
 ```
 
 ## Step 8 - Visit the wordpress route and finish the installation
