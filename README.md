@@ -115,7 +115,7 @@ You can now push Wordpress with one command:
 
 ```bash
 bash> epinio push -n wordpress \
--e BP_PHP_VERSION=8.0.x \
+-e BP_PHP_VERSION=8.1.x \
 -e BP_PHP_SERVER=nginx \
 -e BP_PHP_WEB_DIR=wordpress \
 -e DB_HOST=$(epinio configurations list | grep mydb | awk '{print $2}') \
